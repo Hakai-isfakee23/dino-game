@@ -35,6 +35,7 @@ const SUN_RAY_LENGTH = 20;
 
 // Game state
 let score = 0;
+let highScore = localStorage.getItem("highScore") || 0;
 let lives = 3;
 let gameOver = false;
 let isJumping = false;
@@ -87,6 +88,10 @@ function jump() {
 }
 
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScore", highScore);
+  }
   score = 0;
   lives = 3;
   gameOver = false;
@@ -604,25 +609,43 @@ function draw() {
     ctx.fillStyle = "#535353";
     ctx.font = "40px Arial";
     ctx.textAlign = "center";
-    ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2);
-    ctx.font = "20px Arial";
-    ctx.fillText(
-      `Final Score: ${score}`,
-      canvas.width / 2,
-      canvas.height / 2 + 30
-    );
+    ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 40);
+
+    // Draw score
+    ctx.font = "24px Arial";
+    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2);
+
+    // Always show Best score, highlight if beaten
+    if (score > highScore) {
+      ctx.fillStyle = "#008000"; // Green color for new best
+      ctx.font = "bold 24px Arial";
+      ctx.fillText(`Best: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
+    } else {
+      ctx.fillStyle = "#535353"; // Normal color for existing best
+      ctx.font = "bold 24px Arial";
+      ctx.fillText(
+        `Best: ${highScore}`,
+        canvas.width / 2,
+        canvas.height / 2 + 30
+      );
+    }
 
     // Add Skill Issue text
     ctx.fillStyle = "#FF0000";
     ctx.font = "bold 32px Arial";
-    ctx.fillText("Skill issue", canvas.width / 2, canvas.height / 2 + 90);
+    ctx.fillText(
+      "Skill issue, try again",
+      canvas.width / 2,
+      canvas.height / 2 + 70
+    );
 
+    // Reset color and add restart text
     ctx.fillStyle = "#535353";
     ctx.font = "20px Arial";
     ctx.fillText(
       "Press Spacebar to restart",
       canvas.width / 2,
-      canvas.height / 2 + 120
+      canvas.height / 2 + 110
     );
     ctx.textAlign = "left"; // Reset text alignment for score
   }
