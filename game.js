@@ -611,10 +611,18 @@ function draw() {
       canvas.width / 2,
       canvas.height / 2 + 30
     );
+
+    // Add Skill Issue text
+    ctx.fillStyle = "#FF0000";
+    ctx.font = "bold 32px Arial";
+    ctx.fillText("Skill issue", canvas.width / 2, canvas.height / 2 + 90);
+
+    ctx.fillStyle = "#535353";
+    ctx.font = "20px Arial";
     ctx.fillText(
       "Press Spacebar to restart",
       canvas.width / 2,
-      canvas.height / 2 + 60
+      canvas.height / 2 + 120
     );
     ctx.textAlign = "left"; // Reset text alignment for score
   }
